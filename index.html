@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>芳芳女士辛苦啦！</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #000111, #001a33, #002b55, #00264d, #001e38);
+            font-family: 'Arial', sans-serif;
+        }
+        
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        
+        .controls input {
+            margin: 5px;
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            width: 250px;
+        }
+        
+        .controls button {
+            margin: 5px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            background: #ff6b6b;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .controls button:hover {
+            background: #ff8e8e;
+            transform: scale(1.05);
+        }
+        
+        .message {
+            position: fixed;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="message">
+        点击屏幕任意位置绽放烟花，或使用下方控制栏发射文字烟花
+    </div>
+    
+    <div class="controls">
+        <input type="text" id="text-input" placeholder="输入想要显示的文字（如：母亲节快乐）" value="母亲节快乐">
+        <button id="launch-btn">发射文字烟花</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

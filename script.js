@@ -235,7 +235,7 @@ class Firework {
             const particleCount = 100;
             for (let i = 0; i < particleCount; i++) {
                 const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 5 + 1;
+                const speed = Math.random() * 36 + 6;
                 const particle = new Particle(
                     this.targetX,
                     this.targetY,
@@ -251,6 +251,9 @@ class Firework {
     createTextParticles() {
         const text = document.getElementById('text-input').value || '母亲节快乐';
         const fontSize = 30;
+        
+        // 先设置主画布的字体以正确测量文字宽度
+        ctx.font = `${fontSize}px Arial`;
         const textWidth = ctx.measureText(text).width;
         
         // 创建临时画布来绘制文字
@@ -259,10 +262,18 @@ class Firework {
         tempCanvas.width = textWidth + 20;
         tempCanvas.height = fontSize * 2;
         
+        // 设置临时画布的字体样式
         tempCtx.font = `${fontSize}px Arial`;
         tempCtx.fillStyle = 'white';
         tempCtx.textAlign = 'center';
         tempCtx.textBaseline = 'middle';
+        
+        // 清除临时画布背景
+        tempCtx.fillStyle = 'rgba(0, 0, 0, 0)';
+        tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+        
+        // 绘制文字
+        tempCtx.fillStyle = 'white';
         tempCtx.fillText(text, tempCanvas.width / 2, tempCanvas.height / 2);
         
         const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
@@ -276,16 +287,20 @@ class Firework {
                     const particleX = this.targetX - textWidth / 2 + x;
                     const particleY = this.targetY - fontSize / 2 + y;
                     
-                    // 从中心点向文字位置发射粒子
+                    // 雨滴型扩散效果
                     const angle = Math.atan2(particleY - this.targetY, particleX - this.targetX);
                     const distance = Math.hypot(particleX - this.targetX, particleY - this.targetY);
-                    const speed = distance * 0.01 + 0.5;
+                    const speed = distance * 0.06 + 0.7;
+                    
+                    // 添加雨滴效果 - 垂直方向速度稍快
+                    const velocityX = Math.cos(angle) * speed * 0.8;
+                    const velocityY = Math.sin(angle) * speed * 1.2;
                     
                     const particle = new Particle(
                         this.targetX,
                         this.targetY,
-                        Math.cos(angle) * speed,
-                        Math.sin(angle) * speed,
+                        velocityX,
+                        velocityY,
                         this.color,
                         true,
                         particleX,

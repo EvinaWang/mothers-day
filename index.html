@@ -30,9 +30,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             padding: 10px;
             border-radius: 10px;
+            cursor: grab;
+            user-select: none;
+            height: 120px;
+            min-height: 120px;
+            max-height: 120px;
         }
         
         .controls input {
@@ -41,6 +46,9 @@
             border-radius: 5px;
             border: none;
             width: 250px;
+            min-width: 250px;
+            max-width: 250px;
+            background: rgba(255, 255, 255, 0.2); /* 添加半透明背景 */
         }
         
         .controls button {
@@ -79,10 +87,38 @@
         点击屏幕任意位置绽放烟花，或使用下方控制栏发射文字烟花
     </div>
     
-    <div class="controls">
+    <div class="controls" id="draggable-controls">
         <input type="text" id="text-input" placeholder="输入想要显示的文字（如：母亲节快乐）" value="母亲节快乐">
         <button id="launch-btn">发射文字烟花</button>
     </div>
+    <script>
+        // 使控制面板可拖动
+        const draggableControls = document.getElementById('draggable-controls');
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        draggableControls.addEventListener('mousedown', (e) => {
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') {
+                isDragging = true;
+                offsetX = e.clientX - draggableControls.getBoundingClientRect().left;
+                offsetY = e.clientY - draggableControls.getBoundingClientRect().top;
+                draggableControls.style.cursor = 'grabbing';
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                draggableControls.style.left = (e.clientX - offsetX) + 'px';
+                draggableControls.style.top = (e.clientY - offsetY) + 'px';
+                draggableControls.style.transform = 'none';
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            draggableControls.style.cursor = 'grab';
+        });
+    </script>
 
     <script src="script.js"></script>
 </body>
